@@ -1,84 +1,79 @@
 ﻿# Video Presentation Script: PulseCoach AI
-**Presenter Profile:** Final-month Drifttekniker (Systems/Cloud Infrastructure) Student at Jensen Education (Sweden)  
-**Project Context:** Final Internship / LIA Project  
-**Target Duration:** ~5:00 minutes (Safely above the 4:00 minute requirement)  
+**Presenter Profile:** Drifttekniker Student at Jensen Education (Sweden)  
+**Project Context:** Internship Project  
+**Target Duration:** ~4:30 minutes (Safely above the 4:00 minute requirement)  
 **Language:** English  
-**Recording Tools:** OBS Studio, Loom, or Microsoft PowerPoint Screen Recorder  
+**Tone:** Honest, realistic, down-to-earth student perspective (beginner-to-intermediate with AI & coding)  
 
 ---
 
 ## Pre-Recording Setup Checklist
-1. Open your browser with the live app running on your **AWS Public IP** (`http://YOUR_EC2_PUBLIC_IP`).
-2. Have **Visual Studio Code** open showing `app.py`, `templates/index.html`, and `DOCUMENTATION.md`.
-3. Have your **AWS EC2 Console** or your terminal SSH window open showing the Ubuntu instance and running Gunicorn process.
-4. Keep a glass of water nearby, take a deep breath, and speak at a steady, conversational pace.
+1. Open your web browser with your app running on your **AWS Public IP** (`http://YOUR_EC2_PUBLIC_IP`).
+2. Have **Visual Studio Code** open in the background with `app.py` and `templates/index.html`.
+3. Have your terminal open with the SSH connection to your AWS Ubuntu server (or the AWS EC2 Management Console).
+4. Take a deep breath, speak in a relaxed and steady pace.
 
 ---
 
 ## Timed Video Script & Visual Cues
 
-### [0:00 - 0:50] Section 1: Introduction, Student Background & Purpose
+### [0:00 - 0:45] Section 1: Introduction & Project Idea
 - **What to show on screen:**
-  - Browser displaying the PulseCoach AI homepage on your AWS Public IP.
-  - Smoothly hover your mouse over the title, navigation bar, and status badge.
+  - Browser showing the PulseCoach AI website loaded via your **AWS Public IP address**.
+  - Move your mouse gently across the page to show it is live.
 
 - **What to say:**
-  > "Hello everyone, and welcome to my presentation!
+  > "Hi everyone, and welcome to my presentation!
   >
-  > My name is Omar, and I am currently in the final month of the **Drifttekniker** program at **Jensen Education** in Sweden.
-  > This project represents my final work connected to my internship, where the objective was to design, develop, and deploy a real-world Generative AI web application hosted in the cloud on **Amazon Web Services (AWS)**.
+  > My name is Omar, and I am currently a student in the **Drifttekniker** program at **Jensen Education** in Sweden.
+  > I worked on this project as part of my internship, where the task was to build an application using Generative AI and host it live in the cloud on **Amazon Web Services (AWS)**.
   >
-  > Today, I am proud to present **PulseCoach AI**—an intelligent health, nutrition, and fitness coaching platform.
-  >
-  > The goal of this application is to solve a genuine problem: providing accessible, science-based health and fitness coaching. By taking user biometrics—such as age, gender, height, weight, activity level, and specific physical limitations—the system calculates metabolic baselines, recommended healthy weight ranges, macronutrient distributions, and crafts an adaptive 7-day training schedule.
-  >
-  > And most importantly, from an infrastructure perspective, it runs as a production web server on an **AWS EC2 Ubuntu instance**, with full Git version control."
+  > For this project, I decided to build **PulseCoach AI**, which is a personal health and fitness coaching web app.
+  > The idea is simple: a user enters their age, gender, height, weight, activity level, and goals. The application then analyzes this information to show what a healthy weight range is for that person, how many calories they need, and uses AI to generate a 7-day workout schedule and meal suggestions."
 
 ---
 
-### [0:50 - 1:55] Section 2: The Real Journey — Copilot Challenges & The Turning Point
+### [0:45 - 1:50] Section 2: My Honest Journey (Copilot Struggles & Teacher Extension)
 - **What to show on screen:**
-  - Switch to **Visual Studio Code** showing the project file tree and `README.md` or `DOCUMENTATION.md`.
+  - Switch to **Visual Studio Code**, showing the files (`app.py`, `templates`, `static`).
 
 - **What to say:**
-  > "Before demonstrating the live application, I want to share the honest story of how this project was developed, because the journey involved significant problem-solving.
+  > "To be completely honest, I am still quite a beginner when it comes to coding and working with AI models. Because of that, this project was definitely a learning curve for me.
   >
-  > Initially, I began developing this project using **Microsoft Copilot**. However, I ran into serious roadblocks. While Copilot was helpful for small autocomplete snippets, I repeatedly hit the '90% trap'—I would get nearly to the end of a feature or stage, only to encounter complex integration bugs that Copilot could not resolve.
+  > At first, I started building this project using **Microsoft Copilot**. But as I worked through it, I ran into a lot of difficulties. I would get about 90% through a part of the project, but then always get stuck on the last 10% trying to solve technical issues with Copilot.
   >
-  > Everything had to be debugged and assembled manually. I managed to get a very basic prototype working locally, but when it came to making the AI reliably communicate with the web interface and preparing it for cloud deployment, we encountered persistent errors—from environment discrepancies to broken API handshakes.
+  > I had to do almost everything manually, and while I eventually got a very simple version running on my local computer, I had way too many problems trying to get the AI and the web server to work properly online. Every time we tried to fix one thing, another error showed up.
   >
-  > I tried repeatedly to make that setup work, but problem after problem caused me to exceed my original project timeline. Fortunately, my teacher was kind and understanding enough to grant me an extension.
+  > Because of these problems, I fell behind and went over the project time limit. Fortunately, my teacher was very kind and gave me an extension so I could finish it.
   >
-  > That was my turning point. I realized that as a future Drifttekniker, choosing the right tools and methodology is just as important as writing code. I decided to pivot and adopt advanced agentic pair-programming with **Antigravity and Google Gemini**. This transformed the entire workflow—allowing us to architect the system properly from the ground up: isolating virtual environments, writing clean REST endpoints in Flask, and automating our AWS deployment."
+  > That was when I decided to try a different approach and test other AI tools, like **Antigravity**. That made a huge difference for me as a learner. It helped guide me step-by-step through setting up the Python Flask server, fixing the dependencies, and deploying it cleanly onto an AWS Ubuntu server."
 
 ---
 
-### [1:55 - 2:50] Section 3: Phase 1 & 2 — Architecture & What I Actually Built
+### [1:50 - 2:40] Section 3: How the Application Works Behind the Scenes
 - **What to show on screen:**
   - In **VS Code**, show `app.py`.
-  - Scroll down through `calculate_biometrics()` and the Gemini API prompt handling.
+  - Scroll through `calculate_biometrics()` and the Gemini API function.
 
 - **What to say:**
-  > "Now let's examine what I actually built and engineered behind the scenes.
+  > "Let's take a quick look at the code in Visual Studio Code.
   >
-  > In `app.py`, the backend is built on **Python Flask**. I implemented verified sports science formulas:
-  > - We calculate Body Mass Index (BMI) and determine healthy weight ranges using World Health Organization guidelines.
-  > - We use the **Mifflin-St Jeor equation** to calculate Basal Metabolic Rate (BMR) and Total Daily Energy Expenditure (TDEE) based on activity level.
-  > - We then dynamically calibrate daily caloric targets and macronutrient splits: protein at 1.8 to 2 grams per kilo of bodyweight, healthy fats at 25%, and complex carbs for energy.
+  > In `app.py`, the backend is built with **Python and Flask**:
+  > - First, when the user submits their information, the code calculates standard biometric values. It calculates the Body Mass Index (BMI) and uses standard health guidelines to show what an ideal healthy weight range is for that person's height and age.
+  > - It also calculates estimated daily calories based on whether the person wants to lose weight, maintain, or build muscle.
+  > - Then, it sends this data to the **Google Gemini AI** model. We give the AI clear instructions to return a 7-day workout routine and meal suggestions in JSON format.
   >
-  > To integrate Generative AI, I constructed structured prompts for **Google Gemini**.
+  > **One problem I had to solve here:**
+  > Sometimes the AI model wraps its response in markdown formatting, which broke the code when trying to read the data. So we added a clean-up function with regular expressions to strip out that extra text.
   >
-  > **A major technical problem we solved here:**
-  > Large language models frequently return JSON wrapped in markdown code fences (` ```json `), which crashes standard JSON parsers. I engineered a regex sanitization pipeline that strips out all markdown syntax, ensuring our parser receives pure, valid JSON every single time.
-  >
-  > Furthermore, from a systems operations standpoint, I built a **Dual-Mode architecture**. If an API key is missing or encounters network rate limits, an internal simulation engine takes over seamlessly. The application *never crashes*—high availability is guaranteed."
+  > We also built in a fallback demo mode, so if the AI API is slow or missing an API key, the website still works and doesn't crash."
 
 ---
 
-### [2:50 - 4:00] Section 4: Live Demonstration of PulseCoach AI
+### [2:40 - 3:50] Section 4: Live Demonstration on AWS
 - **What to show on screen:**
-  - Switch back to the **web browser** showing the live app on your **AWS Public IP**.
-  - Fill in the form live:
+  - Switch to your **web browser** showing the live site on your AWS Public IP.
+  - Fill in the form:
     - Name: Alex
     - Age: 24
     - Gender: Male
@@ -87,71 +82,69 @@
     - Activity: Moderately Active
     - Goal: Fat Loss (or Muscle Gain)
   - Click **'Generate My AI Coaching Plan'**.
-  - Show the loading spinner and then reveal the generated dashboard.
-  - Click the tabs: **7-Day Workout Protocol**, **Meal Strategy**, **Recovery & Habits**.
-  - Scroll down to **"Ask Your AI Coach"** and click a quick question chip (e.g., *"What should I eat 1 hour before working out?"*). Show the coach reply.
-  - Briefly click the **"Print Plan"** button to show the clean print preview.
+  - Show the loading indicator, and then show the results!
+  - Click through the tabs: **7-Day Workout Protocol**, **Meal Strategy**, **Recovery & Habits**.
+  - Scroll to **"Ask Your AI Coach"** and click a question (e.g., *"What should I eat 1 hour before working out?"*).
+  - Briefly click **"Print Plan"**.
 
 - **What to say:**
-  > "Now, let's see PulseCoach AI running live in the browser!
+  > "Now let's see the application working live.
   >
-  > Notice that we are connected directly to our **AWS Public IP address**.
-  > On the left, we have our biometric intake form. Let's enter a profile: Alex, 24 years old, male, 180 cm tall, 82 kg, moderately active, aiming for fat loss while maintaining strength.
+  > As you can see up in the address bar, this is running live from our **AWS Public IP address**.
+  > On the left side, we have our profile form. Let's test it with an example: Alex, 24 years old, male, 180 cm, 82 kg, with moderate activity, looking to lose fat and tone up.
   >
   > Let's click **'Generate My AI Coaching Plan'**.
   >
-  > In real time, the system computes the exact metrics:
-  > - It determines that for someone 180 cm tall, the healthy target weight range is approximately 60 to 80 kg.
-  > - It identifies a current BMI of 25.3.
-  > - It prescribes a sustainable daily target of approximately 2,150 calories—a safe ~450 calorie deficit from his calculated TDEE.
-  > - It provides the exact macronutrient distribution: 165g of protein, 210g of carbs, and 60g of healthy fats.
+  > Right away, the application gives us a clear overview:
+  > - For someone 180 cm tall, it shows a healthy weight range of roughly 60 to 80 kg.
+  > - It shows a current BMI of 25.3.
+  > - It calculates a daily target of around 2,150 calories, giving a safe deficit for fat loss.
+  > - It also shows daily protein, carbs, fats, and water recommendations.
   >
-  > Looking at the **7-Day Workout Protocol**, the AI structures the entire week—Push days, Pull days, lower body, and dedicated active recovery—complete with sets, reps, rest intervals, and coaching cues.
+  > If we look at the **7-Day Workout Protocol**, the AI has organized the entire week with exercises, sets, reps, and helpful coaching cues for proper form.
+  > Under **Meal Strategy**, it gives simple meal ideas for breakfast, lunch, dinner, and snacks.
   >
-  > Under **Meal Strategy**, we have balanced meals with calorie breakdowns for breakfast, lunch, dinner, and snacks.
-  >
-  > And down here is our **interactive AI Coach**. If Alex has a question, for example: *'What should I eat 1 hour before working out?'*, we click send, and the coach provides immediate, contextual guidance.
-  >
-  > We even implemented a dedicated print stylesheet so the user can click **'Print Plan'** and take a clean PDF directly to the gym!"
+  > And at the bottom, there is an **interactive AI coach**. I can click a question like: *'What should I eat 1 hour before working out?'*, and the coach responds with practical advice.
+  > There is also a **Print Plan** button if someone wants to print or save their routine as a PDF."
 
 ---
 
-### [4:00 - 4:55] Section 5: Phase 3 — AWS Infrastructure, Gunicorn & Drifttekniker Operations
+### [3:50 - 4:40] Section 5: AWS Cloud Hosting & Drifttekniker Experience
 - **What to show on screen:**
-  - Switch to your **terminal** showing your SSH connection to the AWS EC2 instance (`ubuntu@ip-172-31-...`), or show the AWS EC2 console showing instance details and Security Groups.
-  - Show `ps aux | grep gunicorn` in the terminal to show the running background workers.
+  - Switch to your **terminal** showing your SSH connection to Ubuntu (`ubuntu@ip-172-31-...`), or show your AWS EC2 Console with the running instance.
 
 - **What to say:**
-  > "Finally, let's look at the infrastructure and deployment, which connects directly to my education as a **Drifttekniker**.
+  > "Finally, let's talk about the cloud hosting part, which was a very important part of my education as a **Drifttekniker**.
   >
-  > For our cloud hosting:
-  > 1. I provisioned an **Ubuntu 24.04 LTS instance on AWS EC2**.
-  > 2. I configured AWS **Security Groups** to manage firewall rules, opening port 22 for SSH administration and port 80 for public HTTP web traffic.
-  > 3. On the server, I created an isolated Python virtual environment (`venv`) to keep all dependencies clean and reproducible.
-  > 4. To satisfy the 'Level 3 Web Server' requirement, I configured **Gunicorn**—a production-grade WSGI HTTP server—running with 3 worker processes as a background daemon.
+  > To host the project:
+  > 1. I set up an **Ubuntu Linux server on AWS EC2**.
+  > 2. In AWS **Security Groups**, I opened port 22 for SSH management and port 80 for HTTP web traffic so the site is accessible to anyone online.
+  > 3. On the Ubuntu server, I cloned the project from GitHub and set up a Python virtual environment.
+  > 4. To run it as a proper web server, I used **Gunicorn**, which runs the app as a background process on port 80.
   >
-  > **Two critical deployment challenges we solved:**
-  > - First, the Flask development server was initially bound only to `127.0.0.1` (localhost), which prevented external access. I reconfigured Gunicorn to bind to `0.0.0.0:80`, successfully routing public internet traffic through the AWS Elastic Network Interface.
-  > - Second, closing the SSH terminal originally terminated the process. By launching Gunicorn in daemon mode, the web server persists independently with continuous uptime.
-  >
-  > All source code, including configuration templates and our full technical documentation, is tracked on GitHub under proper version control."
+  > **A couple of things I learned during deployment:**
+  > At first, the app was only listening on `127.0.0.1` (localhost), so nobody could reach it from the outside. I learned that on a cloud server, you have to bind the web server to `0.0.0.0` so it accepts incoming web traffic.
+  > I also learned how to run the server in the background so it doesn't shut down when I close my SSH terminal."
 
 ---
 
-### [4:55 - 5:25] Section 6: Conclusion & Reflections
+### [4:40 - 5:05] Section 6: Conclusion
 - **What to show on screen:**
-  - Switch back to the browser showing the application or the GitHub repository page.
+  - Switch back to the website in the browser or show your GitHub repository.
 
 - **What to say:**
   > "To conclude:
-  > This project has been an incredible learning experience. Going through the initial struggles with Copilot taught me perseverance and the importance of choosing modern, capable developer tooling. Switching to Antigravity enabled me to turn a stalled project into a complete, polished, and cloud-hosted application.
+  > Even though I started this project as a beginner and faced a lot of frustrating issues with Copilot at the beginning, I learned a huge amount by pushing through and trying new tools like Antigravity.
   >
-  > I want to express my sincere gratitude to my teacher for the extension and the support throughout this project. As I complete my final month at Jensen Education, this project brings together everything I have learned about systems administration, Linux, cloud networking, and modern AI integration.
+  > I was able to connect Python, an AI model, and a web interface, and most importantly, deploy it live on an AWS Ubuntu server.
   >
-  > Thank you so much for your time, and I welcome any questions!"
+  > I want to say a big thank you to my teacher for being understanding and giving me the extra time to get this working properly.
+  >
+  > Thank you so much for watching!"
 
 ---
 
-## Practical Recording Advice
-- **Watch the Clock:** Use a stopwatch or phone timer next to your keyboard. If you hit Section 4 at around 3:00, you are on perfect pace to finish right around 5 minutes.
-- **Tone:** Be proud and authentic! Sharing your real experience with Copilot and the extension makes your presentation stand out as genuine, mature, and reflective.
+## Helpful Recording Tips
+- **Pacing:** Speak in your normal, calm English. Don't rush.
+- **Timer:** If you reach the live demo (Section 4) around 2:40, you are right on track to finish safely around 4:30–5:00 minutes.
+- **Tone:** This humble, honest tone will make your teacher really respect your work, because it shows genuine learning and problem solving!
