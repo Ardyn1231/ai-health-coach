@@ -1,0 +1,415 @@
+﻿<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseCoach AI — Intelligent Health & Fitness Coaching</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            900: '#064e3b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-['Plus_Jakarta_Sans',sans-serif] selection:bg-emerald-500 selection:text-black">
+
+    <!-- Ambient Glow Background -->
+    <div class="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute -top-40 -left-40 w-96 h-96 bg-emerald-600/15 rounded-full blur-3xl"></div>
+        <div class="absolute top-1/3 -right-40 w-96 h-96 bg-blue-600/10 rounded-full blur-3xl"></div>
+        <div class="absolute -bottom-40 left-1/3 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"></div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <header class="relative z-10 border-b border-slate-800/80 bg-slate-950/70 backdrop-blur-md sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center shadow-lg shadow-emerald-500/20">
+                    <i data-lucide="activity" class="w-6 h-6 text-slate-950 stroke-[2.5]"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-200 to-emerald-400">
+                        PulseCoach <span class="text-emerald-400 text-xs uppercase px-2 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 font-bold ml-1">AI</span>
+                    </span>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">Generative AI Fitness & Health Coaching System</p>
+                </div>
+            </div>
+
+            <!-- Status Indicator -->
+            <div class="flex items-center space-x-4">
+                <div id="aiStatusBadge" class="flex items-center space-x-2 px-3 py-1.5 rounded-full text-xs font-medium bg-slate-900 border border-slate-800">
+                    <span id="aiStatusDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <span id="aiStatusText" class="text-slate-300">Checking AI Engine...</span>
+                </div>
+                <button id="toggleThemeBtn" class="p-2 rounded-lg bg-slate-900 border border-slate-800 text-slate-400 hover:text-white transition-colors" title="Toggle Display">
+                    <i data-lucide="moon" class="w-4 h-4"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Container -->
+    <main class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Banner / Hero Description -->
+        <div class="text-center max-w-3xl mx-auto mb-10">
+            <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight text-white mb-4">
+                Personalized Health & Fitness <br>
+                <span class="bg-clip-text text-transparent bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400">
+                    Engineered by Generative AI
+                </span>
+            </h1>
+            <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
+                Enter your biometrics, activity level, and goals. PulseCoach calculates your healthy weight range, optimal caloric & macronutrient breakdown, and crafts an adaptive 7-day training schedule.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Side: User Intake Form -->
+            <section class="lg:col-span-5 bg-slate-900/80 border border-slate-800/80 rounded-2xl p-6 shadow-xl backdrop-blur-sm">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="user-check" class="w-5 h-5 text-emerald-400"></i>
+                        <h2 class="text-lg font-bold text-white">Biometric Profile</h2>
+                    </div>
+                    <span class="text-xs text-slate-400">Step 1 of 2</span>
+                </div>
+
+                <form id="coachForm" class="space-y-4">
+                    <!-- Name & Age -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Your Name</label>
+                            <input type="text" id="nameInput" placeholder="e.g. Alex" value="Alex" required
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Age (years)</label>
+                            <input type="number" id="ageInput" min="14" max="100" value="24" required
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                    </div>
+
+                    <!-- Gender & Height & Weight -->
+                    <div class="grid grid-cols-3 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Gender</label>
+                            <select id="genderInput" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                                <option value="Male" selected>Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Height (cm)</label>
+                            <input type="number" id="heightInput" min="100" max="230" value="180" required
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Weight (kg)</label>
+                            <input type="number" id="weightInput" min="35" max="250" step="0.5" value="82" required
+                                class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                        </div>
+                    </div>
+
+                    <!-- Activity Level -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Daily Activity Level</label>
+                        <select id="activityInput" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                            <option value="sedentary">Sedentary (desk job, minimal daily movement)</option>
+                            <option value="light">Lightly Active (1-3 light walks / workouts per week)</option>
+                            <option value="moderate" selected>Moderately Active (exercise 3-5 days/week)</option>
+                            <option value="very_active">Very Active (heavy workouts 6-7 days/week)</option>
+                            <option value="athlete">Athlete / Physical Labor (2x training/day)</option>
+                        </select>
+                    </div>
+
+                    <!-- Primary Goal -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Primary Fitness & Body Goal</label>
+                        <select id="goalInput" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                            <option value="Lose Weight & Reduce Body Fat" selected>Fat Loss (Burn fat while preserving lean muscle)</option>
+                            <option value="Build Muscle & Hypertrophy">Muscle Gain (Hypertrophy & progressive strength)</option>
+                            <option value="Body Recomposition">Body Recomposition (Simultaneous fat loss & muscle tone)</option>
+                            <option value="General Health, Vitality & Longevity">Health & Longevity (Cardiovascular & functional stamina)</option>
+                        </select>
+                    </div>
+
+                    <!-- Workout Environment & Diet -->
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Workout Setting</label>
+                            <select id="environmentInput" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                                <option value="Commercial Gym" selected>Commercial Gym</option>
+                                <option value="Home with Dumbbells">Home (Dumbbells / Bands)</option>
+                                <option value="Bodyweight / Calisthenics">Bodyweight Only</option>
+                                <option value="Outdoor & Running">Outdoor / Running</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1">Dietary Preference</label>
+                            <select id="dietInput" class="w-full bg-slate-950 border border-slate-800 rounded-xl px-2.5 py-2 text-sm text-white focus:outline-none focus:border-emerald-500">
+                                <option value="None" selected>No Restrictions</option>
+                                <option value="High-Protein">High-Protein Focus</option>
+                                <option value="Vegetarian">Vegetarian</option>
+                                <option value="Vegan">Vegan</option>
+                                <option value="Keto / Low-Carb">Keto / Low-Carb</option>
+                                <option value="Gluten-Free / Dairy-Free">Gluten/Dairy Sensitive</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Physical Limitations / Injuries -->
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 mb-1">Injuries or Limitations (Optional)</label>
+                        <input type="text" id="limitationsInput" placeholder="e.g. Mild lower back sensitivity, tight shoulders"
+                            class="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="generateBtn"
+                        class="w-full mt-2 py-3 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold text-sm flex items-center justify-center space-x-2 shadow-lg shadow-emerald-500/25 transition-all duration-200 transform active:scale-[0.98]">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span id="generateBtnText">Generate My AI Coaching Plan</span>
+                    </button>
+                </form>
+            </section>
+
+            <!-- Right Side: AI Generated Plan & Coaching Panel -->
+            <section class="lg:col-span-7 space-y-6">
+
+                <!-- Placeholder state before generation -->
+                <div id="emptyState" class="bg-slate-900/40 border border-dashed border-slate-800 rounded-2xl p-12 text-center">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto mb-4">
+                        <i data-lucide="brain-circuit" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-white mb-2">Ready to Build Your Regimen</h3>
+                    <p class="text-slate-400 text-sm max-w-md mx-auto mb-6">
+                        Complete your profile on the left and click <span class="text-emerald-400 font-semibold">"Generate My AI Coaching Plan"</span>.
+                        The AI will calculate your biometric targets, meal structure, and full 7-day schedule.
+                    </p>
+                    <button onclick="document.getElementById('coachForm').dispatchEvent(new Event('submit'))"
+                        class="px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-emerald-400 text-xs font-semibold inline-flex items-center space-x-2 border border-slate-700 transition-colors">
+                        <i data-lucide="play" class="w-4 h-4"></i>
+                        <span>Run with Sample Alex (24y, 82kg)</span>
+                    </button>
+                </div>
+
+                <!-- Loading State with Shimmer -->
+                <div id="loadingState" class="hidden bg-slate-900/80 border border-slate-800 rounded-2xl p-8 text-center space-y-4">
+                    <div class="inline-flex p-4 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 animate-spin mb-2">
+                        <i data-lucide="loader-2" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">AI Coach is Analyzing Your Biometrics...</h3>
+                    <p class="text-xs text-slate-400 max-w-sm mx-auto">
+                        Calculating metabolic rates, healthy body weight thresholds, macronutrient partitions, and exercise splits...
+                    </p>
+                </div>
+
+                <!-- Generated Plan Container (Revealed after generation) -->
+                <div id="planContainer" class="hidden space-y-6">
+
+                    <!-- Top Biometrics & Target Card -->
+                    <div class="bg-gradient-to-br from-slate-900 to-slate-950 border border-slate-800 rounded-2xl p-6 shadow-2xl relative overflow-hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-2 mb-4">
+                            <div>
+                                <span id="planUserGreeting" class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">Welcome</span>
+                                <h2 class="text-2xl font-black text-white">Your Tailored AI Prescription</h2>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span id="planSourceBadge" class="px-2.5 py-1 rounded-md text-[11px] font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+                                    Gemini 2.5 AI
+                                </span>
+                                <button id="printPlanBtn" class="px-3 py-1 rounded-md text-xs font-medium bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 flex items-center space-x-1 border border-slate-700">
+                                    <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+                                    <span>Print Plan</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <p id="planSummaryText" class="text-slate-300 text-sm leading-relaxed mb-6">
+                            Summary will be rendered here.
+                        </p>
+
+                        <!-- Biometric Metric Grid -->
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                            <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80">
+                                <span class="text-[11px] text-slate-400 block mb-0.5">Healthy Weight Range</span>
+                                <span id="metricHealthyWeight" class="text-base sm:text-lg font-extrabold text-emerald-400">60 - 78 kg</span>
+                                <span class="text-[10px] text-slate-500 block">for optimal longevity</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80">
+                                <span class="text-[11px] text-slate-400 block mb-0.5">Calculated BMI</span>
+                                <div class="flex items-baseline space-x-1.5">
+                                    <span id="metricBmi" class="text-base sm:text-lg font-extrabold text-white">25.3</span>
+                                    <span id="metricBmiCategory" class="text-[10px] font-bold text-amber-400 px-1.5 py-0.5 rounded bg-amber-400/10">Overweight</span>
+                                </div>
+                            </div>
+                            <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80">
+                                <span class="text-[11px] text-slate-400 block mb-0.5">Daily Calorie Target</span>
+                                <span id="metricCalories" class="text-base sm:text-lg font-extrabold text-teal-300">2,150 kcal</span>
+                                <span id="metricTdeeSub" class="text-[10px] text-slate-500 block">TDEE: 2,600 kcal</span>
+                            </div>
+                            <div class="bg-slate-950/80 p-3.5 rounded-xl border border-slate-800/80">
+                                <span class="text-[11px] text-slate-400 block mb-0.5">Daily Hydration</span>
+                                <span id="metricWater" class="text-base sm:text-lg font-extrabold text-cyan-400">3.2 L</span>
+                                <span class="text-[10px] text-slate-500 block">minimum baseline</span>
+                            </div>
+                        </div>
+
+                        <!-- Macro Bars -->
+                        <div class="mt-5 pt-5 border-t border-slate-800/80">
+                            <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider block mb-3">Daily Macronutrient Targets</span>
+                            <div class="grid grid-cols-3 gap-3">
+                                <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/50">
+                                    <div class="flex justify-between items-center text-xs mb-1">
+                                        <span class="text-emerald-400 font-bold">Protein</span>
+                                        <span id="macroProtein" class="font-extrabold text-white">165g</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-emerald-400 h-full w-[35%]"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/50">
+                                    <div class="flex justify-between items-center text-xs mb-1">
+                                        <span class="text-teal-400 font-bold">Carbohydrates</span>
+                                        <span id="macroCarbs" class="font-extrabold text-white">210g</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-teal-400 h-full w-[45%]"></div>
+                                    </div>
+                                </div>
+                                <div class="bg-slate-950/50 p-3 rounded-lg border border-slate-800/50">
+                                    <div class="flex justify-between items-center text-xs mb-1">
+                                        <span class="text-amber-400 font-bold">Healthy Fats</span>
+                                        <span id="macroFats" class="font-extrabold text-white">60g</span>
+                                    </div>
+                                    <div class="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                                        <div class="bg-amber-400 h-full w-[20%]"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Navigation Tabs: Workouts / Nutrition / Lifestyle -->
+                    <div class="flex border-b border-slate-800 space-x-4">
+                        <button id="tabWorkoutBtn" onclick="switchPlanTab('workouts')" class="pb-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 flex items-center space-x-2">
+                            <i data-lucide="dumbbell" class="w-4 h-4"></i>
+                            <span>7-Day Workout Protocol</span>
+                        </button>
+                        <button id="tabNutritionBtn" onclick="switchPlanTab('nutrition')" class="pb-3 text-sm font-semibold text-slate-400 hover:text-white flex items-center space-x-2">
+                            <i data-lucide="utensils" class="w-4 h-4"></i>
+                            <span>Meal Strategy</span>
+                        </button>
+                        <button id="tabLifestyleBtn" onclick="switchPlanTab('lifestyle')" class="pb-3 text-sm font-semibold text-slate-400 hover:text-white flex items-center space-x-2">
+                            <i data-lucide="heart-pulse" class="w-4 h-4"></i>
+                            <span>Recovery & Habits</span>
+                        </button>
+                    </div>
+
+                    <!-- Tab 1: 7-Day Workout Protocol Content -->
+                    <div id="tabWorkoutContent" class="space-y-3">
+                        <!-- Rendered dynamically by JS -->
+                    </div>
+
+                    <!-- Tab 2: Nutrition Strategy Content -->
+                    <div id="tabNutritionContent" class="hidden space-y-4">
+                        <!-- Rendered dynamically by JS -->
+                    </div>
+
+                    <!-- Tab 3: Lifestyle & Coaching Advice -->
+                    <div id="tabLifestyleContent" class="hidden space-y-3">
+                        <!-- Rendered dynamically by JS -->
+                    </div>
+
+                    <!-- Interactive Coach Chat Section -->
+                    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl mt-8">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-7 h-7 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
+                                    <i data-lucide="message-square" class="w-4 h-4"></i>
+                                </div>
+                                <h3 class="text-sm font-bold text-white">Ask Your AI Coach (Interactive Q&A)</h3>
+                            </div>
+                            <span class="text-[11px] text-slate-400">Ask for exercise swaps, soreness advice, or snacks</span>
+                        </div>
+
+                        <!-- Chat Messages Container -->
+                        <div id="chatMessages" class="space-y-3 max-h-64 overflow-y-auto pr-2 mb-4 text-xs">
+                            <div class="flex items-start space-x-2">
+                                <div class="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center flex-shrink-0 mt-0.5 font-bold text-[10px]">
+                                    AI
+                                </div>
+                                <div class="bg-slate-800/80 rounded-xl rounded-tl-none p-3 text-slate-200 leading-relaxed border border-slate-700/50">
+                                    Hi! I have customized your regimen. Do you have any questions about exercise substitutions, meal timings, or training around soreness?
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Quick prompt suggestions -->
+                        <div class="flex flex-wrap gap-1.5 mb-3">
+                            <button onclick="sendQuickPrompt('What should I eat 1 hour before working out?')" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">
+                                What to eat 1h before training?
+                            </button>
+                            <button onclick="sendQuickPrompt('Can I swap squats for leg press due to knee pain?')" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">
+                                Knee-friendly squat swap?
+                            </button>
+                            <button onclick="sendQuickPrompt('What if I miss a workout day?')" class="text-[11px] px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700/60 transition-colors">
+                                What if I miss a workout?
+                            </button>
+                        </div>
+
+                        <!-- Chat Input Form -->
+                        <form id="chatForm" class="flex space-x-2">
+                            <input type="text" id="chatInput" placeholder="Type your follow-up coaching question..."
+                                class="flex-1 bg-slate-950 border border-slate-800 rounded-xl px-3.5 py-2 text-xs text-white focus:outline-none focus:border-emerald-500 transition-colors">
+                            <button type="submit" id="chatSendBtn"
+                                class="px-4 py-2 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center space-x-1.5 transition-colors">
+                                <i data-lucide="send" class="w-3.5 h-3.5"></i>
+                                <span>Send</span>
+                            </button>
+                        </form>
+                    </div>
+
+                </div>
+
+            </section>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-slate-800/60 text-center text-xs text-slate-500 space-y-2">
+            <p>PulseCoach AI — Powered by Google Gemini & Python Flask. Designed for AWS Ubuntu Cloud Deployment.</p>
+            <p class="text-[11px] text-slate-600">Disclaimer: PulseCoach AI provides wellness and educational fitness recommendations. Always consult a physician prior to initiating high-intensity physical regimes.</p>
+        </footer>
+
+    </main>
+
+    <!-- App JavaScript -->
+    <script src="/static/js/app.js"></script>
+</body>
+</html>
