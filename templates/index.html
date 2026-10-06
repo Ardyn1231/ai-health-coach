@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
     <meta charset="UTF-8">
@@ -314,11 +314,67 @@
                                 </div>
                             </div>
                         </div>
+
+                        <!-- Visual BMI Scale & Zone Indicator -->
+                        <div class="mt-5 pt-4 border-t border-slate-800/80">
+                            <div class="flex items-center justify-between text-xs mb-1.5">
+                                <span class="font-semibold text-slate-300 flex items-center space-x-1.5">
+                                    <i data-lucide="gauge" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                    <span>Body Mass Index (BMI) Visual Gauge</span>
+                                </span>
+                                <span id="bmiZoneText" class="text-[11px] font-bold text-emerald-400">Healthy Zone (18.5 - 24.9)</span>
+                            </div>
+                            <!-- Colored Scale Bar -->
+                            <div class="relative w-full h-3 rounded-full overflow-hidden flex bg-slate-800 shadow-inner">
+                                <div class="h-full bg-blue-500/80 w-[20%]" title="Underweight (<18.5)"></div>
+                                <div class="h-full bg-emerald-500/90 w-[35%]" title="Normal (18.5 - 24.9)"></div>
+                                <div class="h-full bg-amber-500/80 w-[25%]" title="Overweight (25 - 29.9)"></div>
+                                <div class="h-full bg-rose-500/80 w-[20%]" title="Obese (>=30)"></div>
+                            </div>
+                            <!-- Pointer indicator -->
+                            <div class="relative w-full h-5 mt-1">
+                                <div id="bmiGaugePointer" class="absolute top-0 -translate-x-1/2 flex flex-col items-center transition-all duration-500" style="left: 50%;">
+                                    <div class="w-0 h-0 border-l-[5px] border-l-transparent border-r-[5px] border-r-transparent border-b-[6px] border-b-white"></div>
+                                    <span id="bmiGaugePointerValue" class="text-[9px] font-black text-slate-950 bg-white px-1.5 py-0.2 rounded shadow">25.3</span>
+                                </div>
+                            </div>
+                            <div class="flex justify-between text-[9px] text-slate-500 font-medium px-1">
+                                <span>Underweight (&lt;18.5)</span>
+                                <span class="text-emerald-400 font-semibold">Healthy Target (18.5 - 24.9)</span>
+                                <span>Overweight (25 - 29.9)</span>
+                                <span>Obese (30+)</span>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Hydration & Saved Plan Buttons -->
+                        <div class="mt-5 pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3">
+                            <div>
+                                <div class="flex items-center space-x-1.5 mb-1.5">
+                                    <i data-lucide="droplets" class="w-3.5 h-3.5 text-cyan-400"></i>
+                                    <span class="text-xs font-bold text-white">Daily Hydration Log:</span>
+                                    <span id="waterProgressText" class="text-xs font-extrabold text-cyan-400">0 / 8 glasses (0.0L)</span>
+                                </div>
+                                <div id="waterGlassesContainer" class="flex items-center space-x-1.5">
+                                    <!-- Rendered dynamically by JS -->
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <button id="savePlanLocalBtn" onclick="savePlanToLocalStorage()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center space-x-1 transition-colors">
+                                    <i data-lucide="bookmark" class="w-3.5 h-3.5 text-emerald-400"></i>
+                                    <span>Save Regimen</span>
+                                </button>
+                                <button id="loadPlanLocalBtn" onclick="loadPlanFromLocalStorage()" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 flex items-center space-x-1 transition-colors">
+                                    <i data-lucide="folder-open" class="w-3.5 h-3.5 text-teal-400"></i>
+                                    <span>Load Saved</span>
+                                </button>
+                            </div>
+                        </div>
+
                     </div>
 
                     <!-- Navigation Tabs: Workouts / Nutrition / Lifestyle -->
                     <div class="flex border-b border-slate-800 space-x-4">
-                        <button id="tabWorkoutBtn" onclick="switchPlanTab('workouts')" class="pb-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 flex items-center space-x-2">
+                        <button id="tabWorkoutBtn" onclick="switchPlanTab('workout')" class="pb-3 text-sm font-bold text-emerald-400 border-b-2 border-emerald-400 flex items-center space-x-2">
                             <i data-lucide="dumbbell" class="w-4 h-4"></i>
                             <span>7-Day Workout Protocol</span>
                         </button>
@@ -399,6 +455,59 @@
                 </div>
 
             </section>
+        <!-- Exercise Visual & Technique Modal -->
+        <div id="exerciseModal" class="hidden fixed inset-0 z-50 bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl relative animate-fade-in">
+                <button onclick="closeExerciseModal()" class="absolute top-4 right-4 p-1.5 rounded-lg bg-slate-800 text-slate-400 hover:text-white transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+
+                <div class="flex items-center space-x-2 mb-2">
+                    <span id="modalMuscleBadge" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">
+                        Primary Muscle: Chest
+                    </span>
+                    <span id="modalTypeBadge" class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-800 text-slate-300">
+                        Compound Movement
+                    </span>
+                </div>
+
+                <h3 id="modalExerciseTitle" class="text-xl font-black text-white mb-3">
+                    Barbell Bench Press
+                </h3>
+
+                <!-- Exercise Diagram / Visual Card -->
+                <div id="modalIllustrationContainer" class="w-full bg-slate-950/80 rounded-xl p-4 border border-slate-800 mb-4 flex items-center justify-center min-h-[160px]">
+                    <!-- Rendered by JS -->
+                </div>
+
+                <!-- Step-by-Step Form Instructions -->
+                <div class="space-y-2 mb-4">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-300 flex items-center space-x-1.5">
+                        <i data-lucide="list-checks" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Step-by-Step Technique</span>
+                    </h4>
+                    <ul id="modalStepList" class="space-y-1 text-xs text-slate-300 list-decimal list-inside leading-relaxed bg-slate-950/50 p-3 rounded-xl border border-slate-800/60">
+                        <!-- Populated by JS -->
+                    </ul>
+                </div>
+
+                <!-- Common Mistakes -->
+                <div class="bg-rose-950/20 border border-rose-900/40 rounded-xl p-3 mb-4">
+                    <h4 class="text-xs font-bold text-rose-300 uppercase tracking-wider mb-1 flex items-center space-x-1.5">
+                        <i data-lucide="alert-triangle" class="w-3.5 h-3.5 text-rose-400"></i>
+                        <span>Common Form Mistakes to Avoid</span>
+                    </h4>
+                    <p id="modalMistakesText" class="text-xs text-rose-200/90 leading-relaxed">
+                        <!-- Populated by JS -->
+                    </p>
+                </div>
+
+                <div class="flex justify-end">
+                    <button onclick="closeExerciseModal()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition-colors">
+                        Close Technique Guide
+                    </button>
+                </div>
+            </div>
         </div>
 
         <!-- Footer -->

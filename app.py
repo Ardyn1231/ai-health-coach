@@ -1,4 +1,4 @@
-﻿"""
+"""
 AI Health & Fitness Coach (PulseCoach AI)
 A Generative AI web application built with Python Flask and Google Gemini.
 Designed for local development and AWS Ubuntu deployment.
@@ -8,15 +8,25 @@ import os
 import json
 import re
 import math
+import sys
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from dotenv import load_dotenv
 import requests
 
-# Load environment variables from .env
-load_dotenv()
+# Base directory support for PyInstaller single-executable bundle
+if getattr(sys, 'frozen', False):
+    bundle_dir = sys._MEIPASS
+    template_folder = os.path.join(bundle_dir, "templates")
+    static_folder = os.path.join(bundle_dir, "static")
+    app = Flask(__name__, static_folder=static_folder, template_folder=template_folder)
+    # Also load .env from current executable directory if present
+    exe_dir = os.path.dirname(sys.executable)
+    load_dotenv(os.path.join(exe_dir, ".env"))
+else:
+    app = Flask(__name__, static_folder="static", template_folder="templates")
+    load_dotenv()
 
-app = Flask(__name__, static_folder="static", template_folder="templates")
 CORS(app)
 
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
